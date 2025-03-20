@@ -15,11 +15,11 @@ const login = AsyncHandler(async (req, res) => {
   const userpass = user.password;
 
   if (await bcrypt.compare(password, userpass)) {
-    res.send("Loggedin");
+   return  res.send("Loggedin");
   } else {
-    res.send("Password incorrect");
+   return  res.send("Password incorrect");
   }
-  res.send(user.password);
+  return res.send(user.password);
 });
 
 const newuser = AsyncHandler(async (req, res) => {
