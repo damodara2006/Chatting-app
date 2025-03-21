@@ -9,7 +9,6 @@ const login = AsyncHandler(async (req, res) => {
 
   const user = await LoginSchema.findOne({ email: email });
 
-
   if (!user) {
     return res.send("No user found");
   }
@@ -31,19 +30,25 @@ const login = AsyncHandler(async (req, res) => {
 const newuser = AsyncHandler(async (req, res) => {
   let { email, password, username } = req.body;
 
-  if ([email, password, username].some((item) => item == null)) {
+  if ([email, password, username].some((item) => item == "")) {
     return res.send("All fields required");
   }
 
-  const user = await LoginSchema.findOne({
-    $or: [{ email }, { username }]
+  const useremail = await LoginSchema.findOne({
+    $or: [{ email }]
+  });
+  const userusername = await LoginSchema.findOne({
+    $or: [{ username }]
   });
 
-  if (user) {
-    return res.send("User Already exist");
+  if (useremail) {
+    return res.send("Email Already exist");
+  }
+  if (userusername) {
+    return res.send("Username Already exist");
   }
 
-  if (!user) {
+  if (!userusername) {
     password = await bcrypt.hash(password, 10);
     const newuser = new LoginSchema({
       email: email,
@@ -54,17 +59,15 @@ const newuser = AsyncHandler(async (req, res) => {
     res.send(newuser);
   }
 
-  return res.send(user);
+  return res.send(userusername);
 });
 
 const logout = AsyncHandler(async(req,res)=>{
 
   const cooks = req.cookies;
-  console.log(cooks)
  await res.clearCookie("Logeduser"); 
 
   const cook = req.cookies;
   console.log(cook)
 })
 export { newuser, login ,logout};
-
