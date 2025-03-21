@@ -4,7 +4,9 @@
     import bcrypt from "bcrypt";
     import cookieParser from "cookie-parser";
     import jwt from "jsonwebtoken";
-    const login = AsyncHandler(async (req, res) => {
+
+
+    const login = AsyncHandler(async (req, res,next) => {
       const { email, password } = req.body;
 
       const user = await LoginSchema.findOne({ email: email });
@@ -17,13 +19,19 @@
 
       const userpass = user.password;
 
+      const decoded = jwt.verify(token ,"json-web-token");
+      
+      
+
       if (await bcrypt.compare(password, userpass)) {
         return res.send("Loggedin");
       } else {
         return res.send("Password incorrect");
       }
-      return res.send(user.password);
+
+
     });
+
 
     const newuser = AsyncHandler(async (req, res) => {
       let { email, password, username } = req.body;
@@ -62,9 +70,10 @@
 
     const logout = AsyncHandler(async (req, res) => {
       const cooks = req.cookies;
-      await res.clearCookie("Logeduser");
-
-      const cook = req.cookies;
-      console.log(cook);
+     res.clearCookie("Logeduser");
+     return res.send("Logged out")
     });
+
+
+
     export { newuser, login, logout };
