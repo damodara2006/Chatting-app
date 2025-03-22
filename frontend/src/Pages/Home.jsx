@@ -21,10 +21,10 @@ function Home() {
       useEffect(()=>{
         axios.get("http://localhost:8080/checks",{withCredentials:true})
         .then(res=>setdata(res.data.user))
-      },[])
+      })
 
 
-      console.log(data)
+      
   return (
     <div>
        <input type="file" id='in'  />
