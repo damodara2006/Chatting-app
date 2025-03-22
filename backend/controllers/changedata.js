@@ -7,7 +7,6 @@ const changedata = AsyncHandler(async(req,res)=>{
     await LoginSchema.findOneAndUpdate({email:email }).updateOne({profile:file})
     const user = await LoginSchema.findOne({email:email})
     const token = await jwt.sign( {user} , "json-web-token" );
-          console.log(token)
           res.cookie("Logeduser", token, { maxAge: 1200000 , secure:false});
    return res.send(user)
 })

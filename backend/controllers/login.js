@@ -8,14 +8,12 @@
 
     const login = AsyncHandler(async (req, res,next) => {
       const { email, password } = req.body;
-
       const user = await LoginSchema.findOne({ email: email });
-      console.log(email)
       if (!user) {
         return res.send("No user found");
       }
-      const token = await jwt.sign({ user }, "json-web-token");
-      res.cookie("Logeduser", token, { maxAge: 1200000, httpOnly: true });
+      const token = await jwt.sign( {user} , "json-web-token" );
+      res.cookie("Logeduser", token, { maxAge: 1200000 , secure:false});
 
       const userpass = user.password;
 
@@ -34,7 +32,6 @@
 
 
     const newuser = AsyncHandler(async (req, res) => {
-      console.log('newuser')
       let { email, password, username } = req.body;
 
       if ([email, password, username].some((item) => item == "")) {
@@ -57,7 +54,6 @@
       }
 
       if (!userusername) {
-        console.log(password)
         password = await bcrypt.hash(password, 10);
         const newuser = new LoginSchema({
           email: email,
