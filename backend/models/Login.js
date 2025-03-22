@@ -9,6 +9,9 @@ const login = new Schema({
     },
     username:{
         type:String
+    },
+    profile:{
+        type:String
     }
 })
 
