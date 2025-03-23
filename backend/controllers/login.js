@@ -74,7 +74,7 @@
 
     const logout = AsyncHandler(async (req, res) => {
       const cooks = req.cookies;
-     res.clearCookie("Logeduser");
+    await res.clearCookie("Logeduser");
      return res.send("Logged out")
     });
 
