@@ -48,7 +48,7 @@ function login() {
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <ToastContainer/>
-      {login ? <div className="flex flex-col w-[500px] items-center border p-20 rounded-2xl "  >
+      {login ? <div className="flex flex-col bg-gradient-to-tr from-green-400  w-[500px] items-center border p-20 rounded-2xl "  >
         <input
           type="text"
           className="border outline-0 w-full rounded-2xl h-11 pl-5"
@@ -70,7 +70,7 @@ function login() {
         
         <h1 className="w-fit hover:text-blue-700 cursor-pointer" onClick={()=>setlogin(!login)} >New user?</h1>
 
-      </div> : <div className="flex flex-col w-[500px] items-center border p-20 rounded-2xl "  >
+      </div> : <div className="flex bg-gradient-to-bl from-green-400 flex-col w-[500px] items-center border p-20 rounded-2xl "  >
       <input
           type="text"
           className="border outline-0 w-full rounded-2xl h-11 pl-5"
