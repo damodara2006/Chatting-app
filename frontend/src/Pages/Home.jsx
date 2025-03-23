@@ -7,7 +7,11 @@ import { IoIosLogOut } from "react-icons/io";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
+  const [messageheader, setmessageheader] = useState([]);
   const navigate = useNavigate();
+  const [userid, setuserid] = useState();
+  const [uniqueArray, setuniqueArray] = useState([])
+  const [user,setuser] = useState([])
   const handlefile = async () => {
     let inp = document.getElementById("in");
     let data = inp.files[0];
@@ -44,6 +48,45 @@ function Home() {
     }, 2000);
   };
 
+  useEffect(() => {
+    setuserid(data?._id);
+  } );
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+    axios
+      .post("http://localhost:8080/messages", { senderid: userid })
+      .then((res) => setmessageheader(res.data));
+  });
+
+  // console.log(userid)
+
+  // console.log(messageheader.filter((item) => item));
+let array;
+
+ 
+   array = [...new Set(messageheader)]
+   array = array.filter((item)=> data?._id !== item)
+
+  useEffect(()=>{
+    if(array.length>0){
+      axios.defaults.withCredentials = true
+      axios.post("http://localhost:8080/users", {array:array})
+      .then(res=>setuser(res.data))
+    }
+   
+  })
+
+
+  const handlechat = (key)=>{
+    axios.defaults.withCredentials = true
+    axios.post(`http://localhost:8080/usermsg/${userid}/${array[key]}`)
+    .then(res=>{
+      navigate("/chat" , {state:{data:res.data , user:userid ,key:array[key]}})
+  }
+)
+  }
+
   return (
     <div className="relative">
       <ToastContainer />
@@ -52,7 +95,6 @@ function Home() {
           <div className="w-[30%]  font-winky relative flex right-0">
             <h1 className="absolute text-center w-full">{data?.username}</h1>
           </div>
-
           <img
             src={data?.profile}
             className="active:scale-90 w-[40%]"
@@ -70,7 +112,10 @@ function Home() {
           </button>
         </center>
       ) : (
-        "Please login"
+        <>
+        <p>Please login</p> 
+        <button  className="border px-4 py-2 rounded-md bg-gray-200" onClick={()=>navigate('/')}>Login</button>
+        </>
       )}
 
       {data && profile ? (
@@ -90,6 +135,16 @@ function Home() {
       ) : (
         ""
       )}
+      <div className="">
+      <ul className="mt-18 flex flex-col">
+        {
+          user.map((i,key)=>(
+            <li key={key} onClick={()=>handlechat(key)} className="border mb-1 py-4 pl-4">{i}</li>
+          ))
+        }
+      </ul>
+      </div>
+      
     </div>
   );
 }

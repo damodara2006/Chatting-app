@@ -3,6 +3,7 @@ import axios from  "axios"
 import {BrowserRouter , Route , Routes} from "react-router-dom"
 import Login from './Pages/Login';
 import Home from './Pages/Home';
+import Chat from './Pages/Chat';
 function App() {
   
  
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/home' element={<Home/>}/>
+        <Route path='/chat' element={<Chat/>}/>
       </Routes>
       </BrowserRouter>
    

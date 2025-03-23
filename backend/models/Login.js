@@ -13,6 +13,9 @@ const login = new Schema({
     profile:{
         type:String
     }
+},
+{
+    timestamps:true
 })
 
 const LoginSchema = mongoose.model('login' , login);

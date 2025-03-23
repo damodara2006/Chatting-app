@@ -19,10 +19,10 @@
       const token = await jwt.sign( {user} , "json-web-token" );
       res.cookie("Logeduser", token, { maxAge: 1200000 , secure:false});
 
+
       const userpass = user.password;
 
       const decoded = jwt.verify(token ,"json-web-token");
-      
       
 
       if (await bcrypt.compare(password, userpass)) {

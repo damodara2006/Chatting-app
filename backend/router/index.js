@@ -4,7 +4,9 @@ import { login, newuser, logout } from "../controllers/login.js";
 import check from "../controllers/check.js";
 import {profilepic ,  upload , uploadOnCloud} from "../controllers/cloudinary.js"
 import changedata from "../controllers/changedata.js";
-import checks from "../controllers/checks.js";
+import checks from "../controllers/cookiecheck.js";
+import { message } from "../controllers/message.js";
+import { messages, user, usermsg } from "../controllers/Getmessage.js";
 
 const router = express.Router();
 
@@ -14,5 +16,11 @@ router.route("/logout").post( upload.any(),logout);
 router.route("/check").get(check);
 router.route("/checks").get(checks);
 router.route("/profilepic" ).post( upload.any() , check ,profilepic , uploadOnCloud , changedata  );
+router.route("/newmessage").post(upload.any(), check,  message)
+router.route("/messages").post(upload.any(), check, messages)
+router.route("/users").post(upload.any(), check, user)
+router.route("/usermsg/:id/:recevierid").post(upload.any(), check, usermsg)
+
+
 
 export default router;
