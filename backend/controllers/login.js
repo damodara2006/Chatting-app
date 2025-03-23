@@ -9,6 +9,10 @@
     const login = AsyncHandler(async (req, res,next) => {
       const { email, password } = req.body;
       const user = await LoginSchema.findOne({ email: email });
+
+      if([email,password].some((i)=>i=="")){
+       return res.send('All details required')
+      }
       if (!user) {
         return res.send("No user found");
       }
@@ -34,9 +38,9 @@
     const newuser = AsyncHandler(async (req, res) => {
       let { email, password, username } = req.body;
 
-      if ([email, password, username].some((item) => item == "")) {
-        return res.send("All fields required");
-      }
+      if([email,password,username].some((i)=>i==null)){
+        return res.send('All details required')
+       }
 
       const useremail = await LoginSchema.findOne({
          email 
@@ -46,11 +50,11 @@
         $or: [{ username }]
       });
 
-      if (useremail) {
-        return res.send("Email Already exist");
-      }
       if (userusername) {
         return res.send("Username Already exist");
+      }
+      if (useremail) {
+        return res.send("Email Already exist");
       }
 
       if (!userusername) {
@@ -58,10 +62,11 @@
         const newuser = new LoginSchema({
           email: email,
           password: password,
-          username: username
+          username: username,
+          profile:'https://res.cloudinary.com/dmbiqpg0z/image/upload/v1742713648/nxz8mqbl9ljkbz8tmsrm.webp'
         });
         await newuser.save();
-       return res.send(newuser);
+       return res.status(201).send(newuser.email);
       }
 
       return res.send(userusername);

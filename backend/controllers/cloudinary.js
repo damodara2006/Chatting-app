@@ -2,7 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv, { config } from "dotenv";
 import AsyncHandler from "../utils/AsyncHandler.js";
 import multer from "multer";
-import fs from "fs"
+import fs from "fs";
 dotenv.config({
   path: ".env"
 });
@@ -13,45 +13,39 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET
 });
 
-const uploadOnCloud = async (req,res , next) => {
-    let filepath = req.file
+const uploadOnCloud = async (req, res, next) => {
+  let filepath = req.file;
 
-    try {
-        const response = await cloudinary.uploader.upload(filepath)
-    let filelink = response.secure_url
-    req.filelink = filelink
-    fs.unlinkSync(filepath)
-    
-    
-    } catch (error) {
-        console.log("Error on uploading image")
-    fs.unlinkSync(filepath)
-    }
-    next()
+  try {
+    const response = await cloudinary.uploader.upload(filepath);
+    let filelink = response.secure_url;
+    req.filelink = filelink;
+    fs.unlinkSync(filepath);
+  } catch (error) {
+    console.log("Error on uploading image");
+    fs.unlinkSync(filepath);
+  }
+  next();
 };
 
-
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
-    }
-  })
-  
-  const upload = multer({ storage: storage })
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
 
-const profilepic = AsyncHandler(async(req,res , next)=>{
+const upload = multer({ storage: storage });
 
-    if(!req.files) return res.send("Choose profile")
-    req.file = req.files[0].path
+const profilepic = AsyncHandler(async (req, res, next) => {
+  if (req.files.length === 0) {
+    return res.send("Please choose an image");
+  }
+  req.file = req.files[0].path;
 
-    next()
-})
+  next();
+});
 
-export  {cloudinary , upload , profilepic ,uploadOnCloud};
-
-
-
-
+export { cloudinary, upload, profilepic, uploadOnCloud };
