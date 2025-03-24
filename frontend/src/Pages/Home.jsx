@@ -10,8 +10,8 @@ function Home() {
   const [messageheader, setmessageheader] = useState([]);
   const navigate = useNavigate();
   const [userid, setuserid] = useState();
-  const [uniqueArray, setuniqueArray] = useState([])
-  const [user,setuser] = useState([])
+  const [uniqueArray, setuniqueArray] = useState([]);
+  const [user, setuser] = useState([]);
   const handlefile = async () => {
     let inp = document.getElementById("in");
     let data = inp.files[0];
@@ -36,7 +36,8 @@ function Home() {
   useEffect(() => {
     axios
       .get("http://localhost:8080/checks", { withCredentials: true })
-      .then((res) => setdata(res.data.user));
+      .then((res) => {
+        setdata(res.data.user)});
   });
 
   const handlelogout = () => {
@@ -50,7 +51,7 @@ function Home() {
 
   useEffect(() => {
     setuserid(data?._id);
-  } );
+  });
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
@@ -62,30 +63,30 @@ function Home() {
   // console.log(userid)
 
   // console.log(messageheader.filter((item) => item));
-let array;
+  let array;
 
- 
-   array = [...new Set(messageheader)]
-   array = array.filter((item)=> data?._id !== item)
+  array = [...new Set(messageheader)];
+  array = array.filter((item) => data?._id !== item);
 
-  useEffect(()=>{
-    if(array.length>0){
-      axios.defaults.withCredentials = true
-      axios.post("http://localhost:8080/users", {array:array})
-      .then(res=>setuser(res.data))
+  useEffect(() => {
+    if (array.length > 0) {
+      axios.defaults.withCredentials = true;
+      axios
+        .post("http://localhost:8080/users", { array: array })
+        .then((res) => setuser(res.data));
     }
-   
-  })
+  });
 
-
-  const handlechat = (key)=>{
-    axios.defaults.withCredentials = true
-    axios.post(`http://localhost:8080/usermsg/${userid}/${array[key]}`)
-    .then(res=>{
-      navigate("/chat" , {state:{data:res.data , user:userid ,key:array[key]}})
-  }
-)
-  }
+  const handlechat = (key) => {
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`http://localhost:8080/usermsg/${userid}/${array[key]}`)
+      .then((res) => {
+        navigate("/chat", {
+          state: { data: res.data, user: userid, key: array[key] }
+        });
+      });
+  };
 
   return (
     <div className="relative">
@@ -113,8 +114,13 @@ let array;
         </center>
       ) : (
         <>
-        <p>Please login</p> 
-        <button  className="border px-4 py-2 rounded-md bg-gray-200" onClick={()=>navigate('/')}>Login</button>
+          <p>Please login</p>
+          <button
+            className="border px-4 py-2 rounded-md bg-gray-200"
+            onClick={() => navigate("/")}
+          >
+            Login
+          </button>
         </>
       )}
 
@@ -136,15 +142,18 @@ let array;
         ""
       )}
       <div className="">
-      <ul className="mt-18 flex flex-col">
-        {
-          user.map((i,key)=>(
-            <li key={key} onClick={()=>handlechat(key)} className="border mb-1 py-4 pl-4">{i}</li>
-          ))
-        }
-      </ul>
+        <ul className="mt-18 flex flex-col">
+          {user.map((i, key) => (
+            <li
+              key={key}
+              onClick={() => handlechat(key)}
+              className="border mb-1 py-4 pl-4"
+            >
+              {i}
+            </li>
+          ))}
+        </ul>
       </div>
-      
     </div>
   );
 }

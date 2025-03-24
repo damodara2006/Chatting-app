@@ -13,7 +13,6 @@ const message = AsyncHandler(async(req,res)=>{
         message:text
     })
     await newMessage.save()
-   console.log(newMessage) 
    res.send(newMessage)
 })
 

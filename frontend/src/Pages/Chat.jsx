@@ -7,15 +7,24 @@ function Chat() {
   const [data,setdata] = useState([])
   let userid = location.state.user
   let key = location.state.key
-  
+  console.log(userid)
+  console.log(key)
+  const[message,setmessage] = useState()
   useEffect(()=>{
     axios.post(`http://localhost:8080/usermsg/${userid}/${key}`)
     .then(res=>setdata(res.data))
   })
+
+  const handlesubmit = ()=>{
+    axios.post(`http://localhost:8080/newmessage` , {senderid:userid , recevierid:key , text:message})
+    setmessage("")
+  }
   
   return (
     <div className="w-screen h-screen flex justify-center">
-      <ul className=" w-[40%] h-full  flex flex-col relative border">
+
+      <div className="w-[40%]    ">
+      <ul className="  flex flex-col relative ">
         { data.length !== 0 ?
             data?.map((item,key)=>{
 
@@ -31,6 +40,12 @@ function Chat() {
             
         }
       </ul>
+      </div>
+      <div className="flex absolute bottom-8 w-96 ">
+     <input className="border outline-0 w-80" type="text" value={message} onChange={e=>setmessage(e.target.value)} />
+     <button className="ml-5 border px-3" onClick={handlesubmit}>Submit</button>
+      </div>
+      
     </div>
   );
 }

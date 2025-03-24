@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 function login() {
@@ -22,6 +22,11 @@ function login() {
         }
       }); 
   };
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/checks", { withCredentials: true })
+      .then((res)=>console.log(res))
+  });
 
   const handlesubmitnew = ()=>{
     axios
