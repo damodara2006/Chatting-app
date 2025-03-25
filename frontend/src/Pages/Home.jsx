@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
+import { IoMdContacts } from "react-icons/io";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
@@ -12,6 +13,9 @@ function Home() {
   const [userid, setuserid] = useState();
   const [uniqueArray, setuniqueArray] = useState([]);
   const [user, setuser] = useState([]);
+  const [newemail,setnewemail] = useState();
+  const [newtext, setnewtext] = useState()
+  const [adduser, setadduser] = useState(false)
   const handlefile = async () => {
     let inp = document.getElementById("in");
     let data = inp.files[0];
@@ -49,6 +53,10 @@ function Home() {
     }, 2000);
   };
 
+  // useEffect(()=>{
+  //   window.location.reload()
+
+  // },[])
   useEffect(() => {
     setuserid(data?._id);
   });
@@ -88,9 +96,23 @@ function Home() {
       });
   };
 
+const handleadduser = ()=>{
+  console.log(newtext)
+  console.log(userid)
+  axios.post("http://localhost:8080/newmessage",{ senderid:userid, receiveremail:newemail , text:newtext})
+}
+
   return (
     <div className="relative">
       <ToastContainer />
+      {data&& adduser ? 
+      <div className="mt-17 -mb-16 flex justify-center ">
+      <div className="flex flex-col justify-center w-full items-center ">
+        <input type="text" className="border h-11 w-96 pl-5 outline-0" placeholder="Enter sender email" value={newemail} onChange={e=>setnewemail(e.target.value)}/> <br />
+        <input type="text" className="border h-11 w-96 pl-5 outline-0" placeholder="Start with Hi " value={newtext} onChange={e=>setnewtext(e.target.value)}/> <br />
+        <button className="border h-10 w-20" onClick={()=>handleadduser}>Submit</button>
+      </div>
+    </div> : ""}
       {data ? (
         <center className="flex justify-evenly max-h-20 fixed border py-3.5 w-full top-0 bg-gradient-to-r from-green-400 to-green-600 ">
           <div className="w-[30%]  font-winky relative flex right-0">
@@ -103,6 +125,11 @@ function Home() {
             style={{ borderRadius: "100%", width: "30px", height: "30px" }}
             alt=""
           />
+          
+
+          <div className="text-3xl">
+          <IoMdContacts onClick={()=>setadduser(!adduser)} />
+          </div>
           <button
             className="w-[10%] font-winky border  rounded-lg hover:bg-gradient-to-r from-gray-300 to-gray-500 transition-all duration-400 flex justify-center items-center "
             onClick={handlelogout}
@@ -112,6 +139,7 @@ function Home() {
             </p>
           </button>
         </center>
+        
       ) : (
         <>
           <p>Please login</p>
@@ -123,6 +151,8 @@ function Home() {
           </button>
         </>
       )}
+
+    
 
       {data && profile ? (
         <center className=" items-center justify-center mt-10">
