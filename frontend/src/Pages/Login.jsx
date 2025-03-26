@@ -11,7 +11,7 @@ function login() {
   const handlesubmitlogin = () => {
     axios
       .post(
-        "http://localhost:8080/login",
+        "https://chatting-app-backend-37sd.onrender.com/login",
         { email, password },
         { withCredentials: true }
       )
@@ -24,13 +24,13 @@ function login() {
   };
   useEffect(() => {
     axios
-      .get("http://localhost:8080/checks", { withCredentials: true })
+      .get("https://chatting-app-backend-37sd.onrender.com/checks", { withCredentials: true })
   });
 
   const handlesubmitnew = ()=>{
     axios
       .post(
-        "http://localhost:8080/newuser",
+        "https://chatting-app-backend-37sd.onrender.com/newuser",
         { email, password ,username},
         { withCredentials: true }
       )

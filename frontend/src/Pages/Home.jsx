@@ -25,7 +25,7 @@ function Home() {
 
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8080/profilepic", file, {
+      .post("https://chatting-app-backend-37sd.onrender.com/profilepic", file, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -40,14 +40,14 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/checks", { withCredentials: true })
+      .get("https://chatting-app-backend-37sd.onrender.com/checks", { withCredentials: true })
       .then((res) => {
         setdata(res.data.user)});
   },[]);
 
   const handlelogout = () => {
     axios.defaults.withCredentials = true;
-    axios.post("http://localhost:8080/logout");
+    axios.post("https://chatting-app-backend-37sd.onrender.com/logout");
     toast.success("Logged out", { autoClose: 1500 });
     setTimeout(() => {
       navigate("/");
@@ -65,7 +65,7 @@ function Home() {
   useEffect(() => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8080/messages", { senderid: userid })
+      .post("https://chatting-app-backend-37sd.onrender.com/messages", { senderid: userid })
       .then((res) => setmessageheader(res.data));
   },[messageheader,userid]);
 
@@ -81,7 +81,7 @@ function Home() {
     if (array.length > 0) {
       axios.defaults.withCredentials = true;
       axios
-        .post("http://localhost:8080/users", { array: array })
+        .post("https://chatting-app-backend-37sd.onrender.com/users", { array: array })
         .then((res) => setuser(res.data));
     }
   },[user,array]);
@@ -89,7 +89,7 @@ function Home() {
   useEffect(()=>{
     if(user.length>0){
       axios
-    .post("http://localhost:8080/userprofile", { array: user })
+    .post("https://chatting-app-backend-37sd.onrender.com/userprofile", { array: user })
     .then(res=>setuserpic(res.data))
     }
     
@@ -99,7 +99,7 @@ function Home() {
   const handlechat = (key , user) => {
     axios.defaults.withCredentials = true;
     axios
-      .post(`http://localhost:8080/usermsg/${userid}/${array[key]}`)
+      .post(`https://chatting-app-backend-37sd.onrender.com/usermsg/${userid}/${array[key]}`)
       .then((res) => {
         navigate("/chat", {
           state: { data: res.data, user: userid, key: array[key] , username : user}
@@ -109,7 +109,7 @@ function Home() {
 
 
 const handleadduser = ()=> {
-  axios.post("http://localhost:8080/newmessage",{ senderid:userid, receiveremail:newemail , text:newtext})
+  axios.post("https://chatting-app-backend-37sd.onrender.com/newmessage",{ senderid:userid, receiveremail:newemail , text:newtext})
   .then(res=>{
     if(res.data == 'No user found'){
      return toast.error("No user found" ,{autoClose:1500})
