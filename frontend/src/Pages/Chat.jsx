@@ -33,7 +33,7 @@ function Chat() {
     <div className="w-screen h-screen">
       <h1 className="text-center font-wink text-red-600 font-bold">{username}</h1>
        <div className="flex justify-center h-[90%] overflow-y-auto  scroll-smooth  ">
-      <div className="w-[40%] h-[80%]  ">
+      <div className="w-[90%] h-[80%]  ">
         <ul className="  flex flex-col relative   ">
           {data?.length > 0
             ? data?.map((item, key) => {
