@@ -9,10 +9,11 @@ const message = AsyncHandler(async (req, res) => {
   let user;
   if (receiveremail) {
     user = await LoginSchema.findOne({ email: receiveremail });
+    if(!user){
+      return res.send("No user found")
+    }
   }
-  if(!user){
-    return res.send("No user found")
-  }
+ 
 
   console.log(text)
   if (text) {
