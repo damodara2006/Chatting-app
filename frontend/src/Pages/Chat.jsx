@@ -19,6 +19,7 @@ function Chat() {
   });
 
   const handlesubmit = () => {
+    console.log("Hello")
     axios.post(`https://chatting-app-backend-37sd.onrender.com/newmessage`, {
       senderid: userid,
       recevierid: key,
