@@ -16,7 +16,7 @@ function Chat() {
     axios
       .post(`https://chatting-app-backend-37sd.onrender.com/usermsg/${userid}/${key}`)
       .then((res) => setdata(res.data));
-  },[data,key,userid]);
+  });
 
   const handlesubmit = () => {
     axios.post(`https://chatting-app-backend-37sd.onrender.com/newmessage`, {
