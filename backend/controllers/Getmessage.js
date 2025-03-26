@@ -23,10 +23,12 @@ const user = AsyncHandler(async(req,res)=>{
     
    for(let item of array){
     let value = await LoginSchema.findById(item)
-    user.push(value.username)
+    user.push(value?.username)
    }
    res.send(user)
 })
+
+
 
 const usermsg = AsyncHandler(async(req,res)=>{
     const {id ,recevierid} = req.params;

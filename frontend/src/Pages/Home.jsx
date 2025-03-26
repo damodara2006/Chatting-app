@@ -16,6 +16,7 @@ function Home() {
   const [newemail,setnewemail] = useState();
   const [newtext, setnewtext] = useState()
   const [adduser, setadduser] = useState(false)
+  const [userpic,setuserpic] = useState([])
   const handlefile = async () => {
     let inp = document.getElementById("in");
     let data = inp.files[0];
@@ -42,7 +43,7 @@ function Home() {
       .get("http://localhost:8080/checks", { withCredentials: true })
       .then((res) => {
         setdata(res.data.user)});
-  });
+  },[]);
 
   const handlelogout = () => {
     axios.defaults.withCredentials = true;
@@ -59,14 +60,14 @@ function Home() {
   // },[])
   useEffect(() => {
     setuserid(data?._id);
-  });
+  },[userid,data]);
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
     axios
       .post("http://localhost:8080/messages", { senderid: userid })
       .then((res) => setmessageheader(res.data));
-  });
+  },[messageheader,userid]);
 
   // console.log(userid)
 
@@ -83,23 +84,40 @@ function Home() {
         .post("http://localhost:8080/users", { array: array })
         .then((res) => setuser(res.data));
     }
-  });
+  },[user,array]);
 
-  const handlechat = (key) => {
+  useEffect(()=>{
+    if(user.length>0){
+      axios
+    .post("http://localhost:8080/userprofile", { array: user })
+    .then(res=>setuserpic(res.data))
+    }
+    
+  },[user.length])
+  
+
+  const handlechat = (key , user) => {
     axios.defaults.withCredentials = true;
     axios
       .post(`http://localhost:8080/usermsg/${userid}/${array[key]}`)
       .then((res) => {
         navigate("/chat", {
-          state: { data: res.data, user: userid, key: array[key] }
+          state: { data: res.data, user: userid, key: array[key] , username : user}
         });
       });
   };
 
-const handleadduser = ()=>{
-  console.log(newtext)
-  console.log(userid)
+
+const handleadduser = ()=> {
   axios.post("http://localhost:8080/newmessage",{ senderid:userid, receiveremail:newemail , text:newtext})
+  .then(res=>{
+    if(res.data == 'No user found'){
+     return toast.error("No user found" ,{autoClose:1500})
+    }
+    if(res.data){
+      toast.success("Message sent",{autoClose:1500})
+    }
+  })
 }
 
   return (
@@ -110,7 +128,7 @@ const handleadduser = ()=>{
       <div className="flex flex-col justify-center w-full items-center ">
         <input type="text" className="border h-11 w-96 pl-5 outline-0" placeholder="Enter sender email" value={newemail} onChange={e=>setnewemail(e.target.value)}/> <br />
         <input type="text" className="border h-11 w-96 pl-5 outline-0" placeholder="Start with Hi " value={newtext} onChange={e=>setnewtext(e.target.value)}/> <br />
-        <button className="border h-10 w-20" onClick={()=>handleadduser}>Submit</button>
+        <button className="border h-10 w-20 z-50" onClick={handleadduser}>Submit</button>
       </div>
     </div> : ""}
       {data ? (
@@ -131,7 +149,7 @@ const handleadduser = ()=>{
           <IoMdContacts onClick={()=>setadduser(!adduser)} />
           </div>
           <button
-            className="w-[10%] font-winky border  rounded-lg hover:bg-gradient-to-r from-gray-300 to-gray-500 transition-all duration-400 flex justify-center items-center "
+            className="w-[10%] z-50 font-winky border  rounded-lg hover:bg-gradient-to-r from-gray-300 to-gray-500 transition-all duration-400 flex justify-center items-center "
             onClick={handlelogout}
           >
             <p className="">
@@ -171,18 +189,38 @@ const handleadduser = ()=>{
       ) : (
         ""
       )}
-      <div className="">
-        <ul className="mt-18 flex flex-col">
-          {user.map((i, key) => (
-            <li
-              key={key}
-              onClick={() => handlechat(key)}
-              className="border mb-1 py-4 pl-4"
-            >
-              {i}
-            </li>
-          ))}
-        </ul>
+      <div className="flex  w-[100%]   ">
+      <div className="flex w-[100%] justify-center items-center ml-[10%]">
+      <ul className="mt-18 flex flex-col  justify-center  items-center">
+         
+         {
+           userpic.map((item,key)=>(
+             <li>
+                <img src={item} key={key} className="w-9 my-3 h-9 rounded-full mr-5" ></img>
+             </li>
+           ))
+            
+
+         }
+            
+             {/* <img src={userpic[1]} className="w-9" ></img> */}
+
+
+         </ul>
+       <ul className="mt-18 flex flex-col  w-[90%]">
+         {user?.map((i, key) => (
+           <li
+             key={key}
+             onClick={() => handlechat(key ,i )}
+             className="border rounded-3xl mb-1 py-4 pl-4 w-[80%]"
+           >
+             
+             {i}
+           </li>
+         ))}
+       </ul>
+      </div>
+       
       </div>
     </div>
   );

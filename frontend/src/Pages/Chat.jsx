@@ -8,13 +8,15 @@ function Chat() {
   const [data, setdata] = useState([]);
   let userid = location.state.user;
   let key = location.state.key;
+  let username = location.state.username
+  
   const [message, setmessage] = useState();
 
   useEffect(() => {
     axios
       .post(`http://localhost:8080/usermsg/${userid}/${key}`)
       .then((res) => setdata(res.data));
-  });
+  },[data,key,userid]);
 
   const handlesubmit = () => {
     axios.post(`http://localhost:8080/newmessage`, {
@@ -28,6 +30,7 @@ function Chat() {
 
   return (
     <div className="w-screen h-screen">
+      <h1 className="text-center font-wink text-red-600 font-bold">{username}</h1>
        <div className="flex justify-center h-[90%] overflow-y-auto  scroll-smooth  ">
       <div className="w-[40%] h-[80%]  ">
         <ul className="  flex flex-col relative   ">
@@ -47,12 +50,12 @@ function Chat() {
                         <p>
                           {item?.createdAt
                             ? Intl.DateTimeFormat("en-IN", {
-                                timeZone: "Asia/Kolkata", // Convert to IST
+                                timeZone: "Asia/Kolkata", 
                                 day: "2-digit",
                                 hour: "2-digit",
-                                minute: "2-digit", // To include milliseconds
+                                minute: "2-digit", 
                                 hour12: true
-                              }).format(new Date(item.createdAt)) // Ensure it's a valid Date object
+                              }).format(new Date(item.createdAt)) 
                             : "Invalid date"}
                         </p>
                       </li>
@@ -70,12 +73,12 @@ function Chat() {
                         <p className="">
                           {item?.createdAt
                             ? Intl.DateTimeFormat("en-IN", {
-                                timeZone: "Asia/Kolkata", // Convert to IST
+                                timeZone: "Asia/Kolkata", 
                                 day: "2-digit",
                                 hour: "2-digit",
-                                minute: "2-digit", // To include milliseconds
+                                minute: "2-digit", 
                                 hour12: true
-                              }).format(new Date(item.createdAt)) // Ensure it's a valid Date object
+                              }).format(new Date(item.createdAt)) 
                             : "Invalid date"}
                         </p>
                       </li>
