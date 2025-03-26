@@ -5,7 +5,7 @@ import AsyncHandler from "../utils/AsyncHandler.js";
 const message = AsyncHandler(async (req, res) => {
   const { senderid, recevierid, text, receiveremail } = req.body;
 
-
+  console.log(text)
   let user;
   if (receiveremail) {
     user = await LoginSchema.findOne({ email: receiveremail });
