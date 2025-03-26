@@ -14,6 +14,7 @@ const message = AsyncHandler(async (req, res) => {
     return res.send("No user found")
   }
 
+  console.log(text)
   if (text) {
     const newMessage = new messageSchema({
       senderid: senderid,
@@ -21,7 +22,7 @@ const message = AsyncHandler(async (req, res) => {
       message: text
     });
     await newMessage.save();
-    // console.log(newMessage);
+    console.log(newMessage);
     res.send(newMessage);
   }
 });
