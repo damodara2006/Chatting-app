@@ -41,7 +41,7 @@ function Chat() {
   return (
     <div className="w-screen h-screen"  >
       <h1 className="text-center font-wink text-red-600 font-bold ">{username}</h1>
-       <div className="flex justify-center h-[70%] overflow-y-auto  scroll-smooth  ">
+       <div className="flex justify-center h-[85%] overflow-y-auto  scroll-smooth  ">
       <div className="w-[90%] h-[80%]  ">
         <ul className="  flex flex-col relative   ">
           {data?.length > 0
@@ -101,10 +101,10 @@ function Chat() {
       </div>
      
     </div>
-    <footer className="flex bottom-0   items-center w-[100%] justify-center">
-    <div className="flex  w-[70%]  justify-center h-12 text-center ">
+    <footer className="flex bottom-0  items-center w-[100%] justify-center">
+    <div className="flex   justify-center fit   h-12 text-center ">
      <input
-       className="border outline-0 w-[60%] rounded-lg pl-2.5"
+       className="border outline-0 w-[80%] rounded-lg pl-2.5"
        type="text"
        placeholder="Enter message"
        value={message}
