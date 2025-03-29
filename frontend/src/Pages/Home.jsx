@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import { IoMdContacts } from "react-icons/io";
+import {io} from "socket.io-client"
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
@@ -50,6 +51,8 @@ function Home() {
       .get("https://chatting-app-backend-37sd.onrender.com/checks", { withCredentials: true })
       .then((res) => {
         setdata(res.data.user)});
+        const socket = io("http://localhost:8080");
+        socket.connect()
   },[]);
 
   const handlelogout = () => {
