@@ -17,6 +17,7 @@ function Home() {
   const [newtext, setnewtext] = useState()
   const [adduser, setadduser] = useState(false)
   const [userpic,setuserpic] = useState([])
+  let inp = document.getElementById("in");
   const handlefile = async () => {
     let inp = document.getElementById("in");
     let data = inp.files[0];
@@ -37,6 +38,12 @@ function Home() {
         setdata(res.data);
       });
   };
+
+  // useEffect(()=>{
+  //   let file = new FormData()
+  //   file?.append( "file", inp?.files)
+  //   console.log(inp?.files)
+  // })
 
   useEffect(() => {
     axios
