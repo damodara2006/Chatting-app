@@ -2,25 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { RiSendPlaneFill } from "react-icons/ri";
+
+let BASE_URL = "https://chatting-app-backend-37sd.onrender.com"
+
 function Chat() {
   const location = useLocation();
 
   const [data, setdata] = useState([]);
   let userid = location.state.user;
   let key = location.state.key;
+  let datas = [location.state.data];
   let username = location.state.username
+
+  // useEffect(()=>{
+  // setdata(datas)
+  // },[datas.length])
   
   const [message, setmessage] = useState();
 
   useEffect(() => {
     axios
-      .post(`https://chatting-app-backend-37sd.onrender.com/usermsg/${userid}/${key}`)
-      .then((res) => setdata(res.data));
+      .post(`${BASE_URL}/usermsg/${userid}/${key}`)
+      .then((res) =>{ 
+        setdata(res.data)});
   });
 
   const handlesubmit = () => {
     console.log("Hello")
-    axios.post(`https://chatting-app-backend-37sd.onrender.com/newmessage`, {
+    axios.post(`${BASE_URL}/newmessage`, {
       senderid: userid,
       recevierid: key,
       text: message
@@ -30,7 +39,7 @@ function Chat() {
 
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen"  >
       <h1 className="text-center font-wink text-red-600 font-bold">{username}</h1>
        <div className="flex justify-center h-[90%] overflow-y-auto  scroll-smooth  ">
       <div className="w-[90%] h-[80%]  ">
@@ -92,17 +101,26 @@ function Chat() {
       </div>
      
     </div>
-    <footer className="flex bottom-0 justify-center">
-    <div className="flex  w-96  ">
+    <footer className="flex bottom-0   items-center w-[100%] justify-center">
+    <div className="flex  w-[70%]  justify-center h-12 text-center ">
      <input
-       className="border outline-0 w-96 rounded-lg pl-2.5"
+       className="border outline-0 w-[60%] rounded-lg pl-2.5"
        type="text"
        placeholder="Enter message"
        value={message}
        onChange={(e) => setmessage(e.target.value)}
+       onKeyDown={(key)=>{
+        console.log(key.key)
+        if(key.key == 'Enter'){
+          handlesubmit()
+        }
+       }}
      />
-     <div className="bottom-0 relative">
-     <button className="ml-5 px-3 text-5xl" onClick={handlesubmit}>
+     <div className="bottom-0 relative flex justify-center">
+     <button className=" px-3 text-4xl active:scale-100 text-center" onClick={handlesubmit}
+
+
+     >
        <RiSendPlaneFill />
      </button>
      </div>

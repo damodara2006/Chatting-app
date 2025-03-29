@@ -5,7 +5,6 @@
     import cookieParser from "cookie-parser";
     import jwt from "jsonwebtoken";
 
-
     const login = AsyncHandler(async (req, res,next) => {
       const { email, password } = req.body;
       const user = await LoginSchema.findOne({ email: email });

@@ -14,7 +14,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173","https://chatting-app-pm8f.onrender.com"],
     credentials: true
   }
 });
@@ -26,8 +26,6 @@ app.use(
   })
 );
 
-io.on("connnection", (socket) => {
-  console.log("A user connnected", socket.id);
-});
 
-export { app, server };
+
+export { app, server , io };
