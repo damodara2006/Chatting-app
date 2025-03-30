@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useRef } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -46,6 +46,7 @@ function Home() {
       });
   };
 
+  const logref = useRef(null)
   // useEffect(()=>{
   //   let file = new FormData()
   //   file?.append( "file", inp?.files)
@@ -71,9 +72,11 @@ function Home() {
   const handlelogout = () => {
     axios.defaults.withCredentials = true;
     axios.post(`${BASE_URL}/logout`).then(async (res) => {
-      toast.success("Logged out", { autoClose: 1500 });
 
+      toast.success("Logged out", { autoClose: 1500 });
+      setTimeout(() => {
       navigate("/", { state: { log: true } });
+      },2000);
     });
   };
 
@@ -107,7 +110,7 @@ function Home() {
         .post(`${BASE_URL}/users`, { array: array })
         .then((res) => setuser(res.data));
     }
-  }, [user, array]);
+  }, [user.length, array.length]);
 
   useEffect(() => {
     if (user.length > 0) {
@@ -218,6 +221,7 @@ function Home() {
           <button
             className="w-[10%] z-50 font-winky border  rounded-lg hover:bg-gradient-to-r from-gray-300 to-gray-500 transition-all duration-400 flex justify-center items-center mr-5"
             onClick={handlelogout}
+            ref={logref}
           >
             <p className="">
               <IoIosLogOut />
@@ -260,7 +264,7 @@ function Home() {
         <div className="flex w-[100%] justify-center items-center ml-[14%]">
           <ul className="mt-16 flex flex-col  justify-center  items-center">
             {userpic.map((item, key) => (
-              <li className="relative">
+              <li className="relative" key={key}>
                 <img
                   src={item}
                   key={key}
