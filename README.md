@@ -1,4 +1,7 @@
 
+### Live preview
+You can view the live preview of this by clicking this link
+(Chatting-app)[https://chatting-app-pm8f.onrender.com]
 # Chatting-app
 
 A real-time chat application built with the MERN stack (MongoDB, Express, React, Node.js).
