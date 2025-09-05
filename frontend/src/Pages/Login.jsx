@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom";
 const BASE_URL = "https://chatting-app-backend-37sd.onrender.com";
 
 function login() {
-  const [email, setemail] = useState();
-  const [password, setpassword] = useState();
+  const [email, setemail] = useState("damo@gmail.com");
+  const [password, setpassword] = useState("12345");
   const [login, setlogin] = useState(true);
   const [username, setusername] = useState();
   const navigate = useNavigate();
