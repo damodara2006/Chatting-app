@@ -17,7 +17,7 @@
       }
       const token = await jwt.sign( {user} , "json-web-token" );
       res.cookie("Logeduser", token, { maxAge: 1200000 , secure:true , sameSite:'none'});
-
+        
 
       const userpass = user.password;
 

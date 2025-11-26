@@ -8,7 +8,7 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-const BASE_URL = "https://chatting-app-backend-37sd.onrender.com";
+const BASE_URL = "http://localhost:8080";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
@@ -93,7 +93,7 @@ function Home() {
     axios
       .post(`${BASE_URL}/messages`, { senderid: userid })
       .then((res) => setmessageheader(res.data));
-  }, [messageheader, userid]);
+  }, [ userid]);
 
   // console.log(userid)
 
@@ -106,19 +106,26 @@ function Home() {
   useEffect(() => {
     if (array.length > 0) {
       axios.defaults.withCredentials = true;
+      console.log(JSON.stringify(array));
+      
       axios
-        .post(`${BASE_URL}/users`, { array: array })
-        .then((res) => setuser(res.data));
+        .post(`${BASE_URL}/users`, { array: array, username:data._id })
+        .then((res) => {
+          setuser(res.data);
+          // console.log(res);
+          
+        })
     }
   }, [user.length, array.length]);
 
   useEffect(() => {
     if (user.length > 0) {
       axios
-        .post(`${BASE_URL}/userprofile`, { array: user })
+        .post(`${BASE_URL}/userprofile`, { array: user, username: data._id })
         .then((res) => setuserpic(res.data));
     }
   }, [user.length]);
+  
 
   const handlechat = (key, user) => {
     axios.defaults.withCredentials = true;
@@ -148,6 +155,9 @@ function Home() {
   // useEffect(()=>{
   // console.log(onlineuers)
   // },[onlineuers.length])
+  const FastImage = React.memo(({ src }) => {
+    return <img src={src} className="w-12 my-5 h-12 rounded-full mr-5" loading="lazy" />;
+  });
 
   return (
     <div className="relative h-screen ">
@@ -186,8 +196,10 @@ function Home() {
             <h1 className="absolute text-center font-extrabold text-xl w-full">{data?.username}</h1>
           </div>
           <div className="mx-5">
+           
           <img
-            src={data?.profile}
+              src={data?.profile}
+              
             className="active:scale-90 w-[20%] "
             onClick={() => setpictop((prev)=>{
               if(prev == -1000){
@@ -263,33 +275,33 @@ function Home() {
       <div className="flex  w-[100%]   ">
         <div className="flex w-[100%] justify-center items-center ml-[14%]">
           <ul className="mt-16 flex flex-col  justify-center  items-center">
-            {userpic.map((item, key) => (
-              <li className="relative" key={key}>
-                <img
-                  src={item}
-                  key={key}
-                  className="w-12 my-5 h-12 rounded-full mr-5 "
-                ></img>
-              </li>
-            ))}
+           
+           {userpic.map((item, key) => (
+             item ? <li className="relative" key={key}>
+               <FastImage src={item} />
+             </li> : null
+))}
+           
 
             {/* <img src={userpic[1]} className="w-9" ></img> */}
           </ul>
           <ul className="mt-18 flex flex-col  w-[90%] z-30">
+            {console.log(user)
+            }
             {user.length !== 0
               ? user?.map((i, key) => (
-                  <li
-                    key={key}
-                    onClick={() => handlechat(key, i[0])}
-                    className="border rounded-3xl mb-1 py-4 pl-4 w-[80%] relative bg-gradient-to-r from-gray-300"
-                  >
-                    {i[0]}
-                    {onlineuers.includes(i[1]) ? (
-                      <p className="text-green-600">online</p>
-                    ) : (
-                      <p className="text-red-500">offline</p>
-                    )}
-                  </li>
+                i[0] ? <li
+                  key={key}
+                  onClick={() => handlechat(key, i[0])}
+                  className="border rounded-3xl mb-1 py-4 pl-4 w-[80%] relative bg-gradient-to-r from-gray-300"
+                >
+                  {i[0]}
+                  {onlineuers.includes(i[1]) ? (
+                    <p className="text-green-600">online</p>
+                  ) : (
+                    <p className="text-red-500">offline</p>
+                  )}
+                </li> : ""
                 ))
               : ""}
           </ul>

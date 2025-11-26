@@ -5,6 +5,7 @@ import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
 import { Socket } from "dgram";
+import {createClient} from "redis"
 const app = express();
 const upload = multer();
 app.use(cookieParser());
@@ -26,6 +27,7 @@ app.use(
   })
 );
 
+const redis = await createClient()
+await redis.connect()
 
-
-export { app, server , io };
+export { app, server , io , redis};
