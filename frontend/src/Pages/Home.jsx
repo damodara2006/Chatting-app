@@ -8,8 +8,7 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-import BASE_URL from "../../util.js"
-
+const BASE_URL = "https://backend.damodaraprakash.dpdns.org";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
@@ -149,25 +148,9 @@ function Home() {
           return toast.error("No user found", { autoClose: 1500 });
         }
         if (res.data) {
-          axios.defaults.withCredentials = true;
-          //      console.log(JSON.stringify(array));
-
-          axios
-            .post(`${BASE_URL}/users`, { array: array, username: data._id, update: 1 })
-            .then((res) => {
-              console.log(res.data);
-
-              setuser(res.data);
-              //        console.log();
-
-            })
-          axios
-            .post(`${BASE_URL}/userprofile`, { array: user, username: data._id, update: 1 })
-            .then((res) => setuserpic(res.data));
+          toast.success("Message sent", { autoClose: 1500 });
         }
-        toast.success("Message sent", { autoClose: 1500 });
-      }
-      )
+      });
   };
   // useEffect(()=>{
   // console.log(onlineuers)
