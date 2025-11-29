@@ -1,4 +1,4 @@
-  import express from "express";
+import express from "express";
 import multer from "multer";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -15,19 +15,20 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173","https://chatting-app-pm8f.onrender.com"],
+    origin: ["http://localhost:5173", "https://chatting-app-pm8f.onrender.com","http://10.88.234.46"],
     credentials: true
   }
 });
 
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://chatting-app-pm8f.onrender.com"],
+    origin: ["http://localhost:5173", "https://chatting-app-pm8f.onrender.com","http://10.88.234.46"],
     credentials: true
   })
 );
 
-const redis = await createClient()
+const redis = await createClient({ url: "redis://20.244.84.41:6379"})
 await redis.connect()
 
 export { app, server , io , redis};

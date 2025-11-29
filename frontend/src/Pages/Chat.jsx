@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-let BASE_URL = "http://localhost:8080"
+let BASE_URL = "https://backend.damodaraprakash.dpdns.org"
 
 function Chat() {
   const location = useLocation();
@@ -17,14 +17,15 @@ function Chat() {
   // useEffect(()=>{
   // setdata(datas)
   // },[datas.length])
-  
+
   const [message, setmessage] = useState();
 
   useEffect(() => {
     axios
       .post(`${BASE_URL}/usermsg/${userid}/${key}`)
-      .then((res) =>{ 
-        setdata(res.data)});
+      .then((res) => {
+        setdata(res.data)
+      });
   });
 
   const handlesubmit = () => {
@@ -41,11 +42,11 @@ function Chat() {
   return (
     <div className="w-screen h-screen"  >
       <h1 className="text-center font-wink text-red-600 font-bold ">{username}</h1>
-       <div className="flex justify-center h-[85%] overflow-y-auto  scroll-smooth  ">
-      <div className="w-[90%] h-[80%]  ">
-        <ul className="  flex flex-col relative   ">
-          {data?.length > 0
-            ? data?.map((item, key) => {
+      <div className="flex justify-center h-[85%] overflow-y-auto  scroll-smooth  ">
+        <div className="w-[90%] h-[80%]  ">
+          <ul className="  flex flex-col relative   ">
+            {data?.length > 0
+              ? data?.map((item, key) => {
                 const positio = userid == item?.senderid ? "right" : "left";
                 if (positio == "right") {
                   return (
@@ -60,12 +61,12 @@ function Chat() {
                         <p>
                           {item?.createdAt
                             ? Intl.DateTimeFormat("en-IN", {
-                                timeZone: "Asia/Kolkata", 
-                                day: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit", 
-                                hour12: true
-                              }).format(new Date(item.createdAt)) 
+                              timeZone: "Asia/Kolkata",
+                              day: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true
+                            }).format(new Date(item.createdAt))
                             : "Invalid date"}
                         </p>
                       </li>
@@ -83,12 +84,12 @@ function Chat() {
                         <p className="">
                           {item?.createdAt
                             ? Intl.DateTimeFormat("en-IN", {
-                                timeZone: "Asia/Kolkata", 
-                                day: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit", 
-                                hour12: true
-                              }).format(new Date(item.createdAt)) 
+                              timeZone: "Asia/Kolkata",
+                              day: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true
+                            }).format(new Date(item.createdAt))
                             : "Invalid date"}
                         </p>
                       </li>
@@ -96,40 +97,40 @@ function Chat() {
                   );
                 }
               })
-            : ""}
-        </ul>
+              : ""}
+          </ul>
+        </div>
+
       </div>
-     
-    </div>
-    <footer className="flex bottom-0  items-center w-[100%] justify-center">
-    <div className="flex   justify-center fit   h-12 text-center ">
-     <input
-       className="border outline-0 w-[80%] rounded-lg pl-2.5"
-       type="text"
-       placeholder="Enter message"
-       value={message}
-       onChange={(e) => setmessage(e.target.value)}
-       onKeyDown={(key)=>{
-        console.log(key.key)
-        if(key.key == 'Enter'){
-          handlesubmit()
-        }
-       }}
-     />
-     <div className="bottom-0 relative flex justify-center">
-     <button className=" px-3 text-4xl active:scale-100 text-center" onClick={handlesubmit}
+      <footer className="flex bottom-0  items-center w-[100%] justify-center">
+        <div className="flex   justify-center fit   h-12 text-center ">
+          <input
+            className="border outline-0 w-[80%] rounded-lg pl-2.5"
+            type="text"
+            placeholder="Enter message"
+            value={message}
+            onChange={(e) => setmessage(e.target.value)}
+            onKeyDown={(key) => {
+              console.log(key.key)
+              if (key.key == 'Enter') {
+                handlesubmit()
+              }
+            }}
+          />
+          <div className="bottom-0 relative flex justify-center">
+            <button className=" px-3 text-4xl active:scale-100 text-center" onClick={handlesubmit}
 
 
-     >
-       <RiSendPlaneFill />
-     </button>
-     </div>
-    
-   </div>
-    </footer>
+            >
+              <RiSendPlaneFill />
+            </button>
+          </div>
+
+        </div>
+      </footer>
     </div>
 
-   
+
   );
 }
 

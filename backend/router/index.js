@@ -10,7 +10,11 @@ import { messages, user, usermsg } from "../controllers/Getmessage.js";
 import { userprofile } from "../controllers/profile.js";
 
 const router = express.Router();
-
+router.route("/").get((req, res) => {
+    console.log(req.ip);
+    console.log(req.socket.remoteAddress);
+    res.send("Hello from chat backend")
+});
 router.route("/login").post( upload.any(),login);
 router.route("/newuser").post( upload.any() ,newuser);
 router.route("/logout").post( upload.any(),logout);
@@ -23,6 +27,4 @@ router.route("/users").post(upload.any(), check, user)
 router.route("/usermsg/:id/:recevierid").post(upload.any(), check, usermsg)
 router.route("/userprofile").post(userprofile)
 
-
-    
 export default router;

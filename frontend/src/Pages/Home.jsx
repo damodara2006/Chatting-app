@@ -1,4 +1,4 @@
-import React, { useEffect , useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,7 +8,8 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-const BASE_URL = "http://localhost:8080";
+import BASE_URL from "../../util.js"
+
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
@@ -22,8 +23,8 @@ function Home() {
   const [adduser, setadduser] = useState(false);
   const [userpic, setuserpic] = useState([]);
   const [onlineuers, setonlineuser] = useState([]);
-  const[top,settop] = useState(-1000)
-  const[pictop,setpictop] = useState(-1000)
+  const [top, settop] = useState(-1000)
+  const [pictop, setpictop] = useState(-1000)
   let inp = document.getElementById("in");
   const handlefile = async () => {
     let inp = document.getElementById("in");
@@ -75,8 +76,8 @@ function Home() {
 
       toast.success("Logged out", { autoClose: 1500 });
       setTimeout(() => {
-      navigate("/", { state: { log: true } });
-      },2000);
+        navigate("/", { state: { log: true } });
+      }, 2000);
     });
   };
 
@@ -93,7 +94,7 @@ function Home() {
     axios
       .post(`${BASE_URL}/messages`, { senderid: userid })
       .then((res) => setmessageheader(res.data));
-  }, [ userid]);
+  }, [userid]);
 
   // console.log(userid)
 
@@ -106,14 +107,14 @@ function Home() {
   useEffect(() => {
     if (array.length > 0) {
       axios.defaults.withCredentials = true;
-      console.log(JSON.stringify(array));
-      
+      //      console.log(JSON.stringify(array));
+
       axios
-        .post(`${BASE_URL}/users`, { array: array, username:data._id })
+        .post(`${BASE_URL}/users`, { array: array, username: data._id })
         .then((res) => {
           setuser(res.data);
-          // console.log(res);
-          
+          //        console.log();
+
         })
     }
   }, [user.length, array.length]);
@@ -125,7 +126,7 @@ function Home() {
         .then((res) => setuserpic(res.data));
     }
   }, [user.length]);
-  
+
 
   const handlechat = (key, user) => {
     axios.defaults.withCredentials = true;
@@ -148,9 +149,25 @@ function Home() {
           return toast.error("No user found", { autoClose: 1500 });
         }
         if (res.data) {
-          toast.success("Message sent", { autoClose: 1500 });
+          axios.defaults.withCredentials = true;
+          //      console.log(JSON.stringify(array));
+
+          axios
+            .post(`${BASE_URL}/users`, { array: array, username: data._id, update: 1 })
+            .then((res) => {
+              console.log(res.data);
+
+              setuser(res.data);
+              //        console.log();
+
+            })
+          axios
+            .post(`${BASE_URL}/userprofile`, { array: user, username: data._id, update: 1 })
+            .then((res) => setuserpic(res.data));
         }
-      });
+        toast.success("Message sent", { autoClose: 1500 });
+      }
+      )
   };
   // useEffect(()=>{
   // console.log(onlineuers)
@@ -162,9 +179,9 @@ function Home() {
   return (
     <div className="relative h-screen ">
       <ToastContainer />
-      {data  ? (
+      {data ? (
         <div className="mt-17 -mb-16 flex justify-center absolute w-full h-full  items-center p-14 overflow-hidden  ">
-          <div className="flex flex-col justify-center   w-[75%] rounded-4xl backdrop-blur-sm items-center  transition-all h-96 border top-0 absolute ease-in-out z-40 " style={{top:`${top}px`}}>
+          <div className="flex flex-col justify-center   w-[75%] rounded-4xl backdrop-blur-sm items-center  transition-all h-96 border top-0 absolute ease-in-out z-40 " style={{ top: `${top}px` }}>
             <input
               type="text"
               className="border h-11 pl-5 w-[80%]  outline-0 rounded-xl bg-gradient-to-tr from-purple-300 to-cyan-200 font-mono text-sm "
@@ -196,37 +213,38 @@ function Home() {
             <h1 className="absolute text-center font-extrabold text-xl w-full">{data?.username}</h1>
           </div>
           <div className="mx-5">
-           
-          <img
+
+            <img
               src={data?.profile}
-              
-            className="active:scale-90 w-[20%] "
-            onClick={() => setpictop((prev)=>{
-              if(prev == -1000){
-                return 0
-              }
-              else{
-                return -1000
-              }
-            })}
-            style={{ borderRadius: "100%", width: "30px", height: "30px" }}
-            alt=""
-          />
+
+              className="active:scale-90 w-[20%] "
+              onClick={() => setpictop((prev) => {
+                if (prev == -1000) {
+                  return 0
+                }
+                else {
+                  return -1000
+                }
+              })}
+              style={{ borderRadius: "100%", width: "30px", height: "30px" }}
+              alt=""
+            />
           </div>
-         
+
 
           <div className="text-3xl mx-5 ">
             <IoMdContacts
               onClick={() => {
-                settop((prev)=>{
-                  if(prev == -1000){
+                settop((prev) => {
+                  if (prev == -1000) {
                     return 0
                   }
-                  else{
+                  else {
                     return -1000
                   }
                 })
-                setadduser(!adduser)}}
+                setadduser(!adduser)
+              }}
               className="active:scale-75 transition-all "
             />
           </div>
@@ -252,22 +270,22 @@ function Home() {
         </>
       )}
 
-      {data  ? (
-        <center className=" absolute z-40  items-center justify-center mt-17 w-[100%] h-[50%] transition-all duration-200 " style={{top:`${pictop}px`}}>
+      {data ? (
+        <center className=" absolute z-40  items-center justify-center mt-17 w-[100%] h-[50%] transition-all duration-200 " style={{ top: `${pictop}px` }}>
           <div className="w-[65%] h-[85%] border backdrop-blur-sm rounded-4xl  z-50" >
-          <input type="file" id="in" className="mt-10 ml-[10%] text-sm relative " />
-          <div className=" w-fit  overflow-hidden  flex justify-center  items-center mt-5">
-            <img src={data?.profile} className=" h-[190px] w-[190px] rounded-2xl" alt="" />
+            <input type="file" id="in" className="mt-10 ml-[10%] text-sm relative " />
+            <div className=" w-fit  overflow-hidden  flex justify-center  items-center mt-5">
+              <img src={data?.profile} className=" h-[190px] w-[190px] rounded-2xl" alt="" />
+            </div>
+
+            <button
+              onClick={handlefile}
+              className="border px-5 py-2 mt-4 rounded-md hover:bg-gray-400 transition-all duration-75 ease-in active:scale-75 mb-6 "
+            >
+              Submit
+            </button>
           </div>
 
-          <button
-            onClick={handlefile}
-            className="border px-5 py-2 mt-4 rounded-md hover:bg-gray-400 transition-all duration-75 ease-in active:scale-75 mb-6 "
-          >
-            Submit
-          </button>
-          </div>
-         
         </center>
       ) : (
         ""
@@ -275,13 +293,13 @@ function Home() {
       <div className="flex  w-[100%]   ">
         <div className="flex w-[100%] justify-center items-center ml-[14%]">
           <ul className="mt-16 flex flex-col  justify-center  items-center">
-           
-           {userpic.map((item, key) => (
-             item ? <li className="relative" key={key}>
-               <FastImage src={item} />
-             </li> : null
-))}
-           
+
+            {userpic.map((item, key) => (
+              item ? <li className="relative" key={key}>
+                <FastImage src={item} />
+              </li> : null
+            ))}
+
 
             {/* <img src={userpic[1]} className="w-9" ></img> */}
           </ul>
@@ -302,7 +320,7 @@ function Home() {
                     <p className="text-red-500">offline</p>
                   )}
                 </li> : ""
-                ))
+              ))
               : ""}
           </ul>
         </div>
