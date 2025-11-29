@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
-const BASE_URL = "http://20.244.84.41:8080";
+const BASE_URL = "https://backend.damodaraprakash.dpdns.org";
 
 function login() {
   const [email, setemail] = useState("damo@gmail.com");
@@ -13,7 +13,7 @@ function login() {
   const navigate = useNavigate();
 
 
- 
+
 
 
   const handlesubmitlogin = () => {
