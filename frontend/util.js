@@ -1,3 +1,3 @@
-const BASE_URL = "http://localhost:8080"
+const BASE_URL = "https://backend.damodaraprakash.dpdns.org"
 
 export default BASE_URL
