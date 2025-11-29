@@ -287,8 +287,7 @@ function Home() {
             {/* <img src={userpic[1]} className="w-9" ></img> */}
           </ul>
           <ul className="mt-18 flex flex-col  w-[90%] z-30">
-            {console.log(user)
-            }
+          
             {user.length !== 0
               ? user?.map((i, key) => (
                 i[0] ? <li
