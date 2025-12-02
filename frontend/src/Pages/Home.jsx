@@ -8,7 +8,7 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-const BASE_URL = "https://backend.damodaraprakash.dpdns.org";
+const BASE_URL = "http://localhost:8080";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);

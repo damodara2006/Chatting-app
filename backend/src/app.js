@@ -28,7 +28,5 @@ app.use(
   })
 );
 
-const redis = await createClient({ url: "redis://20.244.84.41:6379"})
-await redis.connect()
 
-export { app, server , io , redis};
+export { app, server , io };

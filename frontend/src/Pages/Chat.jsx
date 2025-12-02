@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-let BASE_URL = "https://backend.damodaraprakash.dpdns.org"
+let BASE_URL = "http://localhost:8080"
 
 function Chat() {
   const location = useLocation();

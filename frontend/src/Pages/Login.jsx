@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
-const BASE_URL = "https://backend.damodaraprakash.dpdns.org";
+const BASE_URL = "http://localhost:8080";
 
 function login() {
   const [email, setemail] = useState("damo@gmail.com");
@@ -20,6 +20,8 @@ function login() {
     axios
       .post(`${BASE_URL}/login`, { email, password }, { withCredentials: true })
       .then((res) => {
+        console.log(res);
+        
         toast(res.data);
         if (res.data == "Loggedin") {
           navigate("/home");
