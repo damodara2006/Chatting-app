@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-let BASE_URL = "http://localhost:8080"
+let BASE_URL = "https://chatting-app-pm8f.onrender.com"
 
 function Chat() {
   const location = useLocation();

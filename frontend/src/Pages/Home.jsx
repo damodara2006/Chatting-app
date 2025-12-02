@@ -8,7 +8,7 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://chatting-app-pm8f.onrender.com";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
