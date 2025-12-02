@@ -8,7 +8,7 @@ import { IoMdContacts } from "react-icons/io";
 import { io } from "socket.io-client";
 import { BsDot } from "react-icons/bs";
 
-const BASE_URL = "https://chatting-app-pm8f.onrender.com";
+const BASE_URL = "https://chatting-app-backend-37sd.onrender.com";
 function Home() {
   const [data, setdata] = useState();
   const [profile, setprofile] = useState(false);
